@@ -1,14 +1,8 @@
 import Joi from "joi";
-import Joi from "joi";
 import { ApiError } from "../Errors/ApiError";
 import { API_ERROR_CODES } from "../Errors/ErrorCodes";
 import { prisma } from "../utils/prisma";
 import tryCatch from "../utils/trycatch";
-import {
-  createNoteSchema,
-  updateNoteSchema,
-  uuidSchema,
-} from "../joi/joi.schema.note";
 import {
   createNoteSchema,
   updateNoteSchema,
@@ -21,16 +15,7 @@ export const getNotes = tryCatch(async (req, res) => {
 });
 
 export const getNote = tryCatch(async (req, res) => {
-  const { value, error } = uuidSchema.validate({ uuid: req.params.id });
-  if (error) {
-    throw new ApiError(
-      API_ERROR_CODES.BAD_PARAMS,
-      "Note not found",
-      400,
-    );
-  }
-
-  const { uuid: noteId } = value;
+  const noteId = req.params.id;
   const note = await prisma.note.findUnique({
     where: { id: String(noteId) },
   });
@@ -57,16 +42,6 @@ export const createNote = tryCatch(async (req, res) => {
   }
 
   const { title, content } = value;
-  const { value, error } = createNoteSchema.validate(req.body);
-  if (error) {
-    throw new ApiError(
-      API_ERROR_CODES.BAD_REQUEST_BODY,
-      error.details.map((err) => err.message).join(", "),
-      400,
-    );
-  }
-
-  const { title, content } = value;
   const newNote = await prisma.note.create({
     data: {
       title,
@@ -78,21 +53,6 @@ export const createNote = tryCatch(async (req, res) => {
 });
 
 export const updateNote = tryCatch(async (req, res) => {
-  const data = {
-    uuid: req.params.id,
-    ...req.body,
-  };
-
-  const { value, error } = updateNoteSchema.validate(data);
-  if (error) {
-    throw new ApiError(
-      API_ERROR_CODES.BAD_PARAMS,
-      error.details.map((err) => err.message).join(", "),
-      400,
-    );
-  }
-
-  const { uuid: noteId, title, content } = value;
   const data = {
     uuid: req.params.id,
     ...req.body,
@@ -132,17 +92,7 @@ export const updateNote = tryCatch(async (req, res) => {
 });
 
 export const deleteNote = tryCatch(async (req, res) => {
-  const { value, error } = uuidSchema.validate({ uuid: req.params.id });
-  if (error) {
-    throw new ApiError(
-      API_ERROR_CODES.BAD_PARAMS,
-      `Note not found`,
-      400,
-    );
-  }
-
-  const { uuid: noteId } = value;
-
+  const noteId = req.params.id;
   await prisma.note.delete({
     where: { id: String(noteId) },
   });

@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { ApiError } from "../Errors/ApiError";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
-import { mapPrismaError } from "./mapPrismaError";
+import { mapPrismaError } from "../utils/mapPrismaError";
 
 const errorHandler = (
   error: any,

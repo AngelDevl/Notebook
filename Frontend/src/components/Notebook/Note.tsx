@@ -1,16 +1,19 @@
-import React from "react";
 import type { TNote } from "../../types/note.type";
 import Card from "react-bootstrap/Card";
-import "../../note.css";
+import "../../css/note.css";
+import { Button } from "react-bootstrap";
+import { useLoading } from "../Context/LoadingContext";
 
 interface NoteProps {
   note: TNote;
+  onDelete: (noteId: string) => void;
 }
-const Note = ({ note }: NoteProps) => {
+const Note = ({ note, onDelete }: NoteProps) => {
+  const { isLoading } = useLoading();
+
   return (
     <Card
       className="note-card"
-      onClick={() => window.location.replace(`/notes/${note.id}`)}
       style={{ width: "18rem", cursor: "pointer" }}
     >
       <Card.Body>
@@ -20,6 +23,20 @@ const Note = ({ note }: NoteProps) => {
         </Card.Subtitle>
         <Card.Text>Created At: {note.createdAt}</Card.Text>
         <Card.Text>Updated At: {note.updatedAt}</Card.Text>
+        <Button
+          disabled={isLoading}
+          variant="danger"
+          style={{marginRight: "10px"}}
+          onClick={() => onDelete(note.id)}
+        >
+          Delete
+        </Button>
+        <Button
+          variant="primary"
+          onClick={() => window.location.replace(`/notes/${note.id}`)}
+        >
+          Edit
+        </Button>
       </Card.Body>
     </Card>
   );

@@ -1,6 +1,10 @@
-html, body, #root {
+html, #root {
   height: 100%;
   margin: 0;
   padding: 0;
   background-color: #242424;
+}
+
+body p, body h1 {
+  color: white;
 }

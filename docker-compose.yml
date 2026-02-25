@@ -14,9 +14,10 @@ services:
 
   express-api:
     build:
-      context: .
+      context: ./Backend
     container_name: express_api
     restart: always
+
     ports:
       - "${EXPRESS_API_PORT}:${EXPRESS_API_PORT}"
       - "${PRISMA_PORT}:${PRISMA_PORT}"
@@ -24,6 +25,24 @@ services:
       - postgres
     environment:
       DATABASE_URL: "postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}?schema=public"
+      EXPRESS_API_PORT: ${EXPRESS_API_PORT}
+      
     volumes:
-      - ./express-api:/app
-      - node_modules:/app/node_modules
+      - ./Backend:/app/src
+      # - node_modules:/app/node_modules
+    # command: 
+    #   sh -c "
+    #     npm run begin
+    #   "
+
+  frontend:
+    build:
+      context: .
+    ports:
+      - "5173:5173"
+    volumes:
+      - .:/app
+      - /app/node_modules
+  
+# volumes:
+#   node_modules:

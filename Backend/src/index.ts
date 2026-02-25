@@ -21,10 +21,14 @@ app.use(
 );
 
 app.get("/health", tryCatch( async (req, res) => {
+app.get("/health", tryCatch( async (req, res) => {
     await prisma.$queryRaw`SELECT 1`;
     res.json({ success: true, status: "ok"})
 }));
+    res.json({ success: true, status: "ok"})
+}));
 
+app.use("/app", appRouter);
 app.use("/app", appRouter);
 
 app.use(errorHandler as express.ErrorRequestHandler);

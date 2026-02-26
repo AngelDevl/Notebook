@@ -35,7 +35,7 @@ export const AlertProvider = ({ children }: { children: ReactNode }) => {
   const triggerAlert = (
     message: string,
     variant: AlertVariant = "success",
-    duration: number = 10000,
+    duration: number = 5000,
   ) => {
     setAlert({ message, variant, duration });
     setVisible(true);

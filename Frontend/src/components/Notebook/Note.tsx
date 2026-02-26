@@ -3,6 +3,7 @@ import Card from "react-bootstrap/Card";
 import { Button } from "react-bootstrap";
 import { useLoading } from "../Context/LoadingContext";
 import "../../css/note.css";
+import { useNavigate } from "react-router-dom";
 
 interface NoteProps {
   note: TNote;
@@ -10,7 +11,7 @@ interface NoteProps {
 }
 const Note = ({ note, onDelete }: NoteProps) => {
   const { isLoading } = useLoading();
-
+  const navigate = useNavigate();
   return (
     <Card className="note-card" style={{ width: "18rem" }}>
       <Card.Body>
@@ -29,10 +30,21 @@ const Note = ({ note, onDelete }: NoteProps) => {
           Delete
         </Button>
         <Button
+          style={{ marginRight: "10px" }}
           variant="primary"
-          onClick={() => window.location.replace(`/notes/${note.id}`)}
+          onClick={() =>
+            navigate(`/notes/${note.id}?mode=edit`, { replace: true })
+          }
         >
           Edit
+        </Button>
+        <Button
+          variant="info"
+          onClick={() =>
+            navigate(`/notes/${note.id}?mode=view`, { replace: true })
+          }
+        >
+          View
         </Button>
       </Card.Body>
     </Card>

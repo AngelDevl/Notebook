@@ -9,6 +9,8 @@ import getApiErrorMessage from "../../api/getApiErrorMessage";
 
 const Notebook = () => {
   const [notes, setNotes] = useState<TNote[] | null>(null);
+  const [error, setError] = useState<string | null>(null);
+
   const { isLoading, showLoading, hideLoading } = useLoading();
   const { triggerAlert } = useAlert();
 
@@ -35,7 +37,7 @@ const Notebook = () => {
       const notes: TNote[] = response.data;
       setNotes(notes);
     } catch (error) {
-      triggerAlert(getApiErrorMessage(error), "danger");
+      setError(getApiErrorMessage(error));
     } finally {
       hideLoading();
     }
@@ -47,11 +49,13 @@ const Notebook = () => {
 
   return (
     <div>
-      {!isLoading && notes && (
+      {notes ? (
         <Container className="mt-4">
           <h1 style={{ color: "white" }}>My Notes</h1>
           <Notes notes={notes} onDelete={deleteNote} />
         </Container>
+      ) : (
+        !isLoading && <h1>{error}</h1>
       )}
     </div>
   );

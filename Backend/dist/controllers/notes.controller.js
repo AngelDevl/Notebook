@@ -4,8 +4,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteNote = exports.updateNote = exports.createNote = exports.getNote = exports.getNotes = void 0;
-const ApiError_1 = require("../Errors/ApiError");
-const ErrorCodes_1 = require("../Errors/ErrorCodes");
+const ApiError_1 = require("../errors/ApiError");
+const ErrorCodes_1 = require("../errors/ErrorCodes");
 const prisma_1 = require("../utils/prisma");
 const trycatch_1 = __importDefault(require("../utils/trycatch"));
 const joi_schema_note_1 = require("../joi/joi.schema.note");
@@ -51,7 +51,7 @@ exports.updateNote = (0, trycatch_1.default)(async (req, res) => {
         where: { id: String(noteId) },
     });
     if (!existing) {
-        throw new ApiError_1.ApiError(ErrorCodes_1.API_ERROR_CODES.BAD_REQUEST, `Note not found`, 400);
+        throw new ApiError_1.ApiError(ErrorCodes_1.API_ERROR_CODES.BAD_REQUEST, `Note not found`, 404);
     }
     const updatedNote = await prisma_1.prisma.note.update({
         where: { id: String(noteId) },

@@ -1,12 +1,12 @@
 import { Request, Response, NextFunction } from "express";
 
-export type AsyncController = (
+export type RequestHandlerAsync = (
   req: Request,
   res: Response,
   next: NextFunction,
 ) => Promise<void>;
 
-export type Controller = (
+export type RequestHandler = (
   req: Request,
   res: Response,
   next: NextFunction,

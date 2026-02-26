@@ -1,12 +1,8 @@
-import Joi from "joi";
-import { ApiError } from "../Errors/ApiError";
-import { API_ERROR_CODES } from "../Errors/ErrorCodes";
+import { ApiError } from "../errors/ApiError";
+import { API_ERROR_CODES } from "../errors/ErrorCodes";
 import { prisma } from "../utils/prisma";
 import tryCatch from "../utils/trycatch";
-import {
-  createNoteSchema,
-  updateNoteSchema,
-} from "../joi/joi.schema.note";
+import { createNoteSchema, updateNoteSchema } from "../joi/joi.schema.note";
 
 export const getNotes = tryCatch(async (req, res) => {
   const notes = await prisma.note.findMany();
@@ -20,11 +16,7 @@ export const getNote = tryCatch(async (req, res) => {
   });
 
   if (!note) {
-    throw new ApiError(
-      API_ERROR_CODES.NOTE_NOT_EXISTS,
-      `Note not found`,
-      404,
-    );
+    throw new ApiError(API_ERROR_CODES.NOTE_NOT_EXISTS, `Note not found`, 404);
   }
 
   res.json({ note: note });
@@ -73,11 +65,7 @@ export const updateNote = tryCatch(async (req, res) => {
   });
 
   if (!existing) {
-    throw new ApiError(
-      API_ERROR_CODES.BAD_REQUEST,
-      `Note not found`,
-      400,
-    );
+    throw new ApiError(API_ERROR_CODES.BAD_REQUEST, `Note not found`, 404);
   }
   const updatedNote = await prisma.note.update({
     where: { id: String(noteId) },

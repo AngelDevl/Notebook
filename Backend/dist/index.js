@@ -11,11 +11,12 @@ const errorHandler_1 = __importDefault(require("./middleware/errorHandler"));
 const trycatch_1 = __importDefault(require("./utils/trycatch"));
 const app_route_1 = __importDefault(require("./routes/app.route"));
 const config_1 = require("./config");
+const processHandler_1 = __importDefault(require("./utils/processHandler"));
 if (process.env.NODE_ENV != "production") {
     (0, dotenv_1.config)({ path: "../.env" });
 }
 const app = (0, express_1.default)();
-const PORT = process.env.EXPRESS_API_PORT || 4000;
+const PORT = process.env.EXPRESS_API_PORT || config_1.serverPort;
 app.use(express_1.default.json());
 app.use((0, cors_1.default)({
     origin: config_1.allowedOrigins,
@@ -30,4 +31,5 @@ app.use(errorHandler_1.default);
 app.use("*path", (req, res) => {
     res.sendStatus(404);
 });
-app.listen(PORT, () => console.log(`Server is listening to port: ${PORT}`));
+const server = app.listen(PORT, () => console.log(`Server is listening to port: ${PORT}`));
+(0, processHandler_1.default)(server);

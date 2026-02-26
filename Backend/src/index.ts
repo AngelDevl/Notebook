@@ -5,14 +5,15 @@ import { prisma } from "./utils/prisma";
 import errorHandler from "./middleware/errorHandler";
 import tryCatch from "./utils/trycatch";
 import appRouter from "./routes/app.route";
-import { allowedOrigins } from "./config";
+import { allowedOrigins, serverPort } from "./config";
+import registerProcessHandlers from "./utils/processHandler";
 
 if (process.env.NODE_ENV != "production") {
   config({ path: "../.env" });
 }
 
 const app = express();
-const PORT = process.env.EXPRESS_API_PORT || 4000;
+const PORT = process.env.EXPRESS_API_PORT || serverPort;
 
 app.use(express.json());
 app.use(
@@ -38,4 +39,8 @@ app.use("*path", (req, res) => {
   res.sendStatus(404);
 });
 
-app.listen(PORT, () => console.log(`Server is listening to port: ${PORT}`));
+const server = app.listen(PORT, () =>
+  console.log(`Server is listening to port: ${PORT}`),
+);
+
+registerProcessHandlers(server);

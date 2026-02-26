@@ -27,7 +27,7 @@ const NoteEditor = () => {
     if (note && note.title.length > 0) {
         setShowView(true);
     } else {
-        triggerAlert("Title cannot be empty when viewing a not", "warning")
+        triggerAlert("Title cannot be empty when viewing a note", "warning")
     }
   };
 

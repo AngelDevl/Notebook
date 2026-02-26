@@ -6,4 +6,4 @@ COPY . .
 
 RUN npm install
 
-CMD ["node", "dist/index.js"]
+CMD ["sh", "-c", "npm run build && npm run migrate && npm run start"]

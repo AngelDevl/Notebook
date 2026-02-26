@@ -6,7 +6,6 @@ import tryCatch from "../utils/trycatch";
 import {
   createNoteSchema,
   updateNoteSchema,
-  uuidSchema,
 } from "../joi/joi.schema.note";
 
 export const getNotes = tryCatch(async (req, res) => {

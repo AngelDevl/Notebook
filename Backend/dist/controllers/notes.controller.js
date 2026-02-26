@@ -8,6 +8,7 @@ const ApiError_1 = require("../Errors/ApiError");
 const ErrorCodes_1 = require("../Errors/ErrorCodes");
 const prisma_1 = require("../utils/prisma");
 const trycatch_1 = __importDefault(require("../utils/trycatch"));
+const joi_schema_note_1 = require("../joi/joi.schema.note");
 exports.getNotes = (0, trycatch_1.default)(async (req, res) => {
     const notes = await prisma_1.prisma.note.findMany();
     res.status(200).json(notes);
@@ -18,12 +19,16 @@ exports.getNote = (0, trycatch_1.default)(async (req, res) => {
         where: { id: String(noteId) },
     });
     if (!note) {
-        throw new ApiError_1.ApiError(ErrorCodes_1.API_ERROR_CODES.NOT_FOUND, `Note with id: ${noteId}, not found`, 404);
+        throw new ApiError_1.ApiError(ErrorCodes_1.API_ERROR_CODES.NOTE_NOT_EXISTS, `Note not found`, 404);
     }
     res.json({ note: note });
 });
 exports.createNote = (0, trycatch_1.default)(async (req, res) => {
-    const { title, content } = req.body;
+    const { value, error } = joi_schema_note_1.createNoteSchema.validate(req.body);
+    if (error) {
+        throw new ApiError_1.ApiError(ErrorCodes_1.API_ERROR_CODES.BAD_REQUEST_BODY, error.details.map((err) => err.message).join(", "), 400);
+    }
+    const { title, content } = value;
     const newNote = await prisma_1.prisma.note.create({
         data: {
             title,
@@ -33,13 +38,20 @@ exports.createNote = (0, trycatch_1.default)(async (req, res) => {
     res.status(201).json({ note: newNote });
 });
 exports.updateNote = (0, trycatch_1.default)(async (req, res) => {
-    const noteId = req.params.id;
-    const { title, content } = req.body;
+    const data = {
+        uuid: req.params.id,
+        ...req.body,
+    };
+    const { value, error } = joi_schema_note_1.updateNoteSchema.validate(data);
+    if (error) {
+        throw new ApiError_1.ApiError(ErrorCodes_1.API_ERROR_CODES.BAD_PARAMS, error.details.map((err) => err.message).join(", "), 400);
+    }
+    const { uuid: noteId, title, content } = value;
     const existing = await prisma_1.prisma.note.findUnique({
         where: { id: String(noteId) },
     });
     if (!existing) {
-        throw new ApiError_1.ApiError(ErrorCodes_1.API_ERROR_CODES.BAD_REQUEST, `Note with id: ${noteId}, not found`, 400);
+        throw new ApiError_1.ApiError(ErrorCodes_1.API_ERROR_CODES.BAD_REQUEST, `Note not found`, 400);
     }
     const updatedNote = await prisma_1.prisma.note.update({
         where: { id: String(noteId) },
@@ -55,5 +67,5 @@ exports.deleteNote = (0, trycatch_1.default)(async (req, res) => {
     await prisma_1.prisma.note.delete({
         where: { id: String(noteId) },
     });
-    res.json({ deleted: true });
+    res.status(202).json({ deleted: true });
 });

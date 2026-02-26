@@ -23,7 +23,7 @@ const NoteTextBox = ({ note, saveNote }: BoxProps) => {
             rows={1}
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            placeholder="Type something..."
+            placeholder="Type note title..."
           />
         </Form.Group>
       </Form>
@@ -36,7 +36,7 @@ const NoteTextBox = ({ note, saveNote }: BoxProps) => {
             rows={6}
             value={content}
             onChange={(e) => setContent(e.target.value)}
-            placeholder="Type something..."
+            placeholder="Type note content..."
           />
         </Form.Group>
       </Form>

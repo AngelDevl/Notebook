@@ -1,7 +1,11 @@
+import ContainerCenter from "./ContainerCenter";
+
 const NotFoundPage = () => {
   return (
-    <h1>NOT FOUND 404</h1>
-  )
-}
+    <ContainerCenter>
+      <h1 style={{ color: "white" }}>NOT FOUND 404</h1>
+    </ContainerCenter>
+  );
+};
 
-export default NotFoundPage
+export default NotFoundPage;

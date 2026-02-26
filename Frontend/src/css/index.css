@@ -1,0 +1,16 @@
+html,
+#root {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  width: 100%;
+  background-color: #242424;
+}
+
+#container-full-height {
+  height: 100vh;
+}
+
+.card:hover {
+  cursor: pointer
+}

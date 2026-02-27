@@ -7,8 +7,8 @@ import tryCatch from "./utils/trycatch";
 import appRouter from "./routes/app.route";
 import registerProcessHandlers from "./utils/processHandler";
 
-if (process.env.NODE_ENV != "production") {
-  config({ path: "../.env" });
+if (process.env.NODE_ENV !== "production") {
+  config({ path: "../.env.example" });
 }
 
 import { allowedOrigins, serverPort } from "./config";

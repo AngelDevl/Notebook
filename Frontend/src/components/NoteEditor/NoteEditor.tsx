@@ -7,6 +7,7 @@ import { useLoading } from "../Context/LoadingContext";
 import { useAlert } from "../Context/AlertContext";
 import getApiErrorMessage from "../../api/getApiErrorMessage";
 import NoteViewModal from "./NoteViewModal";
+import ContainerCenter from "../Helper/ContainerCenter";
 
 const NoteEditor = () => {
   const [note, setNote] = useState<TNote | null>(null);
@@ -25,9 +26,9 @@ const NoteEditor = () => {
 
   const handleOpenView = () => {
     if (note && note.title.length > 0) {
-        setShowView(true);
+      setShowView(true);
     } else {
-        triggerAlert("Title cannot be empty when viewing a note", "warning")
+      triggerAlert("Title cannot be empty when viewing a note", "warning");
     }
   };
 
@@ -135,7 +136,11 @@ const NoteEditor = () => {
       />
     </>
   ) : (
-    !isLoading && <h1>{error}</h1>
+    !isLoading && (
+      <ContainerCenter>
+        <h1>{error}</h1>
+      </ContainerCenter>
+    )
   );
 };
 

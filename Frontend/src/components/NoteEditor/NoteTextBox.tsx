@@ -20,9 +20,7 @@ const NoteTextBox = ({
 
   return (
     <Container className="mt-4">
-      <h1 style={{ color: "white" }}>
-        {note.id == "new" ? "Creating" : "Editing"} note
-      </h1>
+      <h1>{note.id == "new" ? "Creating" : "Editing"} note</h1>
       <Form>
         <Form.Group>
           <Form.Label style={{ color: "white" }}>Enter note title:</Form.Label>

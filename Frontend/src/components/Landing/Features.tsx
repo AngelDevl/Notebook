@@ -1,7 +1,7 @@
 import { FilePlusCorner, NotebookTabs } from "lucide-react";
 import { Card, Col, Row } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import "../../css/feature.css"
+import "../../css/feature.css";
 
 const Features = () => {
   const navigate = useNavigate();
@@ -15,7 +15,7 @@ const Features = () => {
             id="feature-card"
             className="text-center shadow-sm"
           >
-            <h1>Create Note</h1>
+            <h1 style={{ color: "black" }}>Create Note</h1>
             <FilePlusCorner size={48} />
           </Card>
         </Col>
@@ -26,7 +26,7 @@ const Features = () => {
             id="feature-card"
             className="text-center shadow-sm"
           >
-            <h1>My Notes</h1>
+            <h1 style={{ color: "black" }}>My Notes</h1>
             <NotebookTabs size={48} />
           </Card>
         </Col>

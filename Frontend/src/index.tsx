@@ -1,6 +1,6 @@
 import { createRoot } from "react-dom/client";
-import "./css/index.css";
 import "bootstrap/dist/css/bootstrap.min.css";
+import "./css/index.css";
 import App from "./App.tsx";
 import { BrowserRouter } from "react-router-dom";
 import { AlertProvider } from "./components/Context/AlertContext.tsx";

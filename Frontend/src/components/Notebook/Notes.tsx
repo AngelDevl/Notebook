@@ -14,7 +14,7 @@ const Notes = ({ notes, onDelete }: NotesProps) => {
     <>
       {notes.length == 0 ? (
         <>
-          <h2 style={{ color: "white" }}>- No Notes</h2>
+          <h2>- No Notes</h2>
           <Button
             onClick={() => navigate("/notes/new")}
             variant="light"
@@ -25,7 +25,7 @@ const Notes = ({ notes, onDelete }: NotesProps) => {
         </>
       ) : (
         <>
-          <h2 style={{ color: "white" }}>
+          <h2>
             - You have {notes.length} {notes.length == 1 ? "note" : "notes"}
           </h2>
           <Container>

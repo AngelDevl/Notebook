@@ -5,12 +5,13 @@ import { prisma } from "./lib/prisma";
 import errorHandler from "./middleware/errorHandler";
 import tryCatch from "./utils/trycatch";
 import appRouter from "./routes/app.route";
-import { allowedOrigins, serverPort } from "./config";
 import registerProcessHandlers from "./utils/processHandler";
 
 if (process.env.NODE_ENV != "production") {
   config({ path: "../.env" });
 }
+
+import { allowedOrigins, serverPort } from "./config";
 
 const app = express();
 const PORT = process.env.EXPRESS_API_PORT || serverPort;

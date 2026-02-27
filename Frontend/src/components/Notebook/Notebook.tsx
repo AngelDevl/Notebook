@@ -6,6 +6,7 @@ import { Container } from "react-bootstrap";
 import { useLoading } from "../Context/LoadingContext";
 import { useAlert } from "../Context/AlertContext";
 import getApiErrorMessage from "../../api/getApiErrorMessage";
+import ContainerCenter from "../Helper/ContainerCenter";
 
 const Notebook = () => {
   const [notes, setNotes] = useState<TNote[] | null>(null);
@@ -51,11 +52,15 @@ const Notebook = () => {
     <div>
       {notes ? (
         <Container className="mt-4">
-          <h1 style={{ color: "white" }}>My Notes</h1>
+          <h1>My Notes</h1>
           <Notes notes={notes} onDelete={deleteNote} />
         </Container>
       ) : (
-        !isLoading && <h1>{error}</h1>
+        !isLoading && (
+          <ContainerCenter>
+            <h1>{error}</h1>
+          </ContainerCenter>
+        )
       )}
     </div>
   );

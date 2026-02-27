@@ -18,12 +18,18 @@ docker compose --env-file .env.example up -d postgres
 ```
 ### Running backend
 ```console 
+npm install
+```
+```console 
 npm run dev:migrate
 ```
 ```console 
 npm run dev
 ```
 ### Running frontend (In frontend dir)
+```console 
+npm install
+```
 ```console 
 npm run dev
 ```

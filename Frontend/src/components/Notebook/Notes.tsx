@@ -16,7 +16,7 @@ const Notes = ({ notes, onDelete }: NotesProps) => {
         <>
           <h2 style={{ color: "white" }}>- No Notes</h2>
           <Button
-            onClick={() => navigate("/notes/new", { replace: true })}
+            onClick={() => navigate("/notes/new")}
             variant="light"
             style={{ width: "140px" }}
           >

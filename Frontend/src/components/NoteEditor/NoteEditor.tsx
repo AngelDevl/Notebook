@@ -89,7 +89,7 @@ const NoteEditor = () => {
 
         setNote(newNote);
 
-        navigate(`/notes/${newNote.id}`, { replace: true });
+        navigate(`/notes/${newNote.id}`);
       } else {
         const response = await api.put(`/notes/${noteId}`, {
           title: note.title,

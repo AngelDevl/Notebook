@@ -1,6 +1,6 @@
 import { ApiError } from "../errors/ApiError";
 import { API_ERROR_CODES } from "../errors/ErrorCodes";
-import { prisma } from "../utils/prisma";
+import { prisma } from "../lib/prisma";
 import tryCatch from "../utils/trycatch";
 import { createNoteSchema, updateNoteSchema } from "../joi/joi.schema.note";
 

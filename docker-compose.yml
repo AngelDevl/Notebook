@@ -25,12 +25,11 @@ services:
       - postgres
     environment:
       NODE_ENV: production
-      DATABASE_URL: ${DATABASE_URL}
+      DATABASE_URL: ${DATABASE_URL_PRODUCTION}
       EXPRESS_API_PORT: ${EXPRESS_API_PORT}
       CLIENT_SIDE_PORT: ${CLIENT_SIDE_PORT}
 
     volumes:
-      - ./Backend:/app/src
       - /app/node_modules
 
   frontend:
@@ -41,7 +40,6 @@ services:
     ports:
       - "5173:5173"
     volumes:
-      - ./Frontend:/app/src
       - /app/node_modules
 
 volumes:

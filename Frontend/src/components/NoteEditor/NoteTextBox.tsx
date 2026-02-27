@@ -29,6 +29,7 @@ const NoteTextBox = ({
           <Form.Control
             as="textarea"
             rows={1}
+            autoFocus={true}
             value={note.title}
             onChange={(e) => saveNoteTemp(e.target.value, null)}
             placeholder="Type note title..."

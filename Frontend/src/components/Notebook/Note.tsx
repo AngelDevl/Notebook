@@ -33,7 +33,7 @@ const Note = ({ note, onDelete }: NoteProps) => {
           style={{ marginRight: "10px" }}
           variant="primary"
           onClick={() =>
-            navigate(`/notes/${note.id}?mode=edit`, { replace: true })
+            navigate(`/notes/${note.id}?mode=edit`)
           }
         >
           Edit
@@ -41,7 +41,7 @@ const Note = ({ note, onDelete }: NoteProps) => {
         <Button
           variant="info"
           onClick={() =>
-            navigate(`/notes/${note.id}?mode=view`, { replace: true })
+            navigate(`/notes/${note.id}?mode=view`)
           }
         >
           View

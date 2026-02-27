@@ -11,7 +11,7 @@ const Features = () => {
         <Col md={5} lg={4}>
           <Card
             body
-            onClick={() => navigate("/notes/new", { replace: true })}
+            onClick={() => navigate("/notes/new")}
             id="feature-card"
             className="text-center shadow-sm"
           >
@@ -22,7 +22,7 @@ const Features = () => {
         <Col md={5} lg={4}>
           <Card
             body
-            onClick={() => navigate("/notes", { replace: true })}
+            onClick={() => navigate("/notes")}
             id="feature-card"
             className="text-center shadow-sm"
           >

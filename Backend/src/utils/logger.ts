@@ -6,6 +6,9 @@ const logger = pino({
     process.env.NODE_ENV !== "production"
       ? {
           target: "pino-pretty",
+          options: {
+            colorize: true,
+          },
         }
       : undefined,
 });

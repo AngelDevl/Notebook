@@ -13,8 +13,9 @@ const errorHandler = (
     method: req.method,
     url: req.originalUrl,
     message: error.message,
-    stack: error.stack,
   });
+
+  logger.error(error.stack)
 
   const prismaError = mapPrismaError(error);
   if (prismaError) {

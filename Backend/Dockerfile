@@ -2,8 +2,12 @@ FROM node:23-alpine
 
 WORKDIR /app/src
 
-COPY . .
+COPY package.json .
 
 RUN npm install
 
-CMD ["sh", "-c", "npm run build && npm run migrate && npm run start"]
+COPY . .
+
+RUN npm run build
+
+CMD ["sh", "-c", "npm run gen && npm run migrate && npm run start"]

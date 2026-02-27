@@ -6,6 +6,7 @@
     "dev": "nodemon",
     "build": "tsc",
     "start": "node dist/index.js",
+    "gen": "npx prisma generate --config ./src/prisma.config.ts",
     "migrate": "npx prisma migrate deploy --config ./src/prisma.config.ts",
     "dev:create": "npx prisma migrate dev --create-only --config ./src/prisma.config.ts",
     "dev:migrate": "prisma migrate dev --name init --config ./src/prisma.config.ts"

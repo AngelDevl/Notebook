@@ -29,9 +29,6 @@ services:
       EXPRESS_API_PORT: ${EXPRESS_API_PORT}
       CLIENT_SIDE_PORT: ${CLIENT_SIDE_PORT}
 
-    volumes:
-      - /app/node_modules
-
   frontend:
     build:
       context: ./Frontend
@@ -39,8 +36,6 @@ services:
         - VITE_EXPRESS_API_PORT=${VITE_EXPRESS_API_PORT}
     ports:
       - "5173:5173"
-    volumes:
-      - /app/node_modules
 
 volumes:
   postgres_data:

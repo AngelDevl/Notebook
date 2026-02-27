@@ -3,21 +3,27 @@
 A simple notebook app to manage notes.
 ## How to run in production
 ```console
-> 1. git clone git@github.com:AngelDevl/Notebook.git
+git clone git@github.com:AngelDevl/Notebook.git
 ```
 ```console
-> 2. docker compose --env-file .env.example up -d --build
+docker compose --env-file .env.example up -d --build
 ```
 ```console
-> 3. Reach http://localhost:5173
+Reach http://localhost:5173
 ```
 ## How to run in development
+### Running postgres
 ```console 
-> 1. docker compose --env-file .env.example up -d postgres
+docker compose --env-file .env.example up -d postgres
+```
+### Running backend
+```console 
+npm run dev:migrate
 ```
 ```console 
-> 2. npm run dev:migrate
+npm run dev
 ```
+### Running frontend (In frontend dir)
 ```console 
-> 3. npm run dev
+npm run dev
 ```

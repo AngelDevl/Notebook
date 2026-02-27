@@ -8,7 +8,7 @@ import appRouter from "./routes/app.route";
 import registerProcessHandlers from "./utils/processHandler";
 
 if (process.env.NODE_ENV !== "production") {
-  config({ path: "../.env.example" });
+  config({ path: "../.env.development" });
 }
 
 import { allowedOrigins, serverPort } from "./config";

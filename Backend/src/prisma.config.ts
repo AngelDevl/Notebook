@@ -3,7 +3,7 @@ import { defineConfig } from "prisma/config";
 import { config } from "dotenv";
 
 const envFile =
-  process.env.NODE_ENV === "production" ? "../.env" : "../.env.example";
+  process.env.NODE_ENV === "production" ? "../.env" : "../.env.development";
 
 config({ path: envFile });
 

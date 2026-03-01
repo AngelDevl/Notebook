@@ -1,20 +1,28 @@
-FROM node:23-alpine
+FROM node:23-alpine AS builder
 
 WORKDIR /app
+
+COPY package*.json .
+
+RUN npm install
+
+COPY . .
 
 ARG VITE_EXPRESS_API_PORT
 ENV VITE_EXPRESS_API_PORT=$VITE_EXPRESS_API_PORT
 
-COPY package.json .
+RUN npm run build
 
-RUN npm install
+# ------------------------------
+
+FROM node:23-alpine
+
+WORKDIR /app
 
 RUN npm i -g serve
 
-COPY . .
+COPY --from=builder /app/dist ./dist
 
-RUN npm run build
-
-EXPOSE 5173
+ENV NODE_ENV=production
 
 CMD [ "serve", "-s", "dist", "-l", "5173" ]

@@ -1,15 +1,17 @@
+import { config } from "dotenv";
+
+if (process.env.NODE_ENV !== "production") {
+  config({ path: "../.env.development" });
+}
+
 import express from "express";
 import cors from "cors";
-import { config } from "dotenv";
 import { prisma } from "./lib/prisma";
 import errorHandler from "./middleware/errorHandler";
 import tryCatch from "./utils/trycatch";
 import appRouter from "./routes/app.route";
 import registerProcessHandlers from "./utils/processHandler";
 
-if (process.env.NODE_ENV !== "production") {
-  config({ path: "../.env.development" });
-}
 
 import { allowedOrigins, serverPort } from "./config";
 

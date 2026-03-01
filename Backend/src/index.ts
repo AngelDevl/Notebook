@@ -16,7 +16,7 @@ import { allowedOrigins, serverPort } from "./config";
 const app = express();
 const PORT = process.env.EXPRESS_API_PORT || serverPort;
 
-app.use(express.json());
+app.use(express.json({ limit: '1mb' }));
 app.use(
   cors({
     origin: allowedOrigins,

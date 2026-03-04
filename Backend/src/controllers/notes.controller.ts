@@ -1,12 +1,13 @@
 import { ApiError } from "../errors/ApiError";
-import { API_ERROR_CODES } from "../errors/ErrorCodes";
+import { ApiReasonPhrases } from "../errors/ErrorCodes";
 import { prisma } from "../lib/prisma";
 import tryCatch from "../utils/trycatch";
 import { createNoteSchema, updateNoteSchema } from "../joi/joi.schema.note";
+import { StatusCodes } from "http-status-codes";
 
 export const getNotes = tryCatch(async (req, res) => {
   const notes = await prisma.note.findMany();
-  res.status(200).json(notes);
+  res.status(StatusCodes.OK).json(notes);
 });
 
 export const getNote = tryCatch(async (req, res) => {
@@ -16,19 +17,18 @@ export const getNote = tryCatch(async (req, res) => {
   });
 
   if (!note) {
-    throw new ApiError(API_ERROR_CODES.NOTE_NOT_EXISTS, `Note not found`, 404);
+    throw new ApiError(ApiReasonPhrases.NOTE_NOT_FOUND, StatusCodes.NOT_FOUND);
   }
 
-  res.json({ note: note });
+  res.status(StatusCodes.OK).json({ note: note });
 });
 
 export const createNote = tryCatch(async (req, res) => {
   const { value, error } = createNoteSchema.validate(req.body);
   if (error) {
     throw new ApiError(
-      API_ERROR_CODES.BAD_REQUEST_BODY,
       error.details.map((err) => err.message).join(", "),
-      400,
+      StatusCodes.BAD_REQUEST,
     );
   }
 
@@ -40,7 +40,7 @@ export const createNote = tryCatch(async (req, res) => {
     },
   });
 
-  res.status(201).json({ note: newNote });
+  res.status(StatusCodes.CREATED).json({ note: newNote });
 });
 
 export const updateNote = tryCatch(async (req, res) => {
@@ -52,9 +52,8 @@ export const updateNote = tryCatch(async (req, res) => {
   const { value, error } = updateNoteSchema.validate(data);
   if (error) {
     throw new ApiError(
-      API_ERROR_CODES.BAD_PARAMS,
       error.details.map((err) => err.message).join(", "),
-      400,
+      StatusCodes.BAD_REQUEST,
     );
   }
 
@@ -65,7 +64,7 @@ export const updateNote = tryCatch(async (req, res) => {
   });
 
   if (!existing) {
-    throw new ApiError(API_ERROR_CODES.BAD_REQUEST, `Note not found`, 404);
+    throw new ApiError(ApiReasonPhrases.NOTE_NOT_FOUND, StatusCodes.NOT_FOUND);
   }
   const updatedNote = await prisma.note.update({
     where: { id: String(noteId) },
@@ -75,7 +74,7 @@ export const updateNote = tryCatch(async (req, res) => {
     },
   });
 
-  res.json({ note: updatedNote });
+  res.status(StatusCodes.ACCEPTED).json({ note: updatedNote });
 });
 
 export const deleteNote = tryCatch(async (req, res) => {
@@ -84,5 +83,5 @@ export const deleteNote = tryCatch(async (req, res) => {
     where: { id: String(noteId) },
   });
 
-  res.status(202).json({ deleted: true });
+  res.status(StatusCodes.ACCEPTED).json({ deleted: true });
 });

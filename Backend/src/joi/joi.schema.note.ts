@@ -1,5 +1,8 @@
 import Joi from "joi";
-import { noteContentSettings, noteTitleSettings } from "../config";
+import { JoiValidationConfig } from "../config";
+
+const noteContentSettings = JoiValidationConfig.noteContentSettings;
+const noteTitleSettings = JoiValidationConfig.noteTitleSettings;
 
 const uuid = Joi.string().uuid();
 const title = Joi.string()

@@ -2,6 +2,8 @@ import { Request, Response, NextFunction } from "express";
 import { ApiError } from "../errors/ApiError";
 import { mapPrismaError } from "../utils/mapPrismaError";
 import logger from "../utils/logger";
+import { StatusCodes, ReasonPhrases } from "http-status-codes";
+import { ApiReasonPhrases } from "../errors/ErrorCodes";
 
 const errorHandler = (
   error: any,
@@ -15,42 +17,44 @@ const errorHandler = (
     message: error.message,
   });
 
-  logger.error(error.stack)
+  logger.error(error.stack);
 
   const prismaError = mapPrismaError(error);
   if (prismaError) {
     return res.status(prismaError.statusCode).json({
       success: false,
       error: {
-        code: prismaError.errorCode,
         message:
           process.env.NODE_ENV === "production"
-            ? "Unknown error"
+            ? ApiReasonPhrases.UNKNOWN_ERROR
             : prismaError.message,
       },
     });
   }
 
   if (error instanceof ApiError) {
-    return res.status(error.statusCode || 500).json({
-      success: false,
-      error: {
-        code: error.errorCode,
-        message: error.message,
-      },
-    });
+    return res
+      .status(error.statusCode || StatusCodes.INTERNAL_SERVER_ERROR)
+      .json({
+        success: false,
+        error: {
+          message: error.message,
+        },
+      });
   }
 
-  return res.status(error.statusCode || 500).json({
-    success: false,
-    error: {
-      message:
-        process.env.NODE_ENV === "production"
-          ? "An internal server error occurred."
-          : error.message || "Unknown error",
-      ...(process.env.NODE_ENV !== "production" && { stack: error.stack }),
-    },
-  });
+  return res
+    .status(error.statusCode || StatusCodes.INTERNAL_SERVER_ERROR)
+    .json({
+      success: false,
+      error: {
+        message:
+          process.env.NODE_ENV === "production"
+            ? ReasonPhrases.INTERNAL_SERVER_ERROR
+            : error.message || ApiReasonPhrases.UNKNOWN_ERROR,
+        ...(process.env.NODE_ENV !== "production" && { stack: error.stack }),
+      },
+    });
 };
 
 export default errorHandler;

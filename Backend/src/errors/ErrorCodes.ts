@@ -1,11 +1,11 @@
-export const API_ERROR_CODES = {
-  NOT_FOUND: 1,
-  BAD_REQUEST: 2,
-  BAD_PARAMS: 3,
-  BAD_REQUEST_BODY: 4,
-  NOTE_NOT_EXISTS: 5,
+export enum ApiReasonPhrases {
+  NOTE_NOT_FOUND = "Note not found",
+  UNKNOWN_ERROR = "Unknown error",
+}
 
-  DB_ERROR: 10,
-  QUERY_ERROR: 11,
-  DB_CONNECTION_ERROR: 12,
-};
+export enum InternalDataBaseReasonPhrases {
+  INVALID_QUERY = "Invalid database query",
+  RECORD_NOT_FOUND = "Record not found",
+  CONNECTION_FAILED = "Database connection failed",
+  UNKNOWN_ERROR = "Unknown database error",
+}

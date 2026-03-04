@@ -12,16 +12,16 @@ import tryCatch from "./utils/trycatch";
 import appRouter from "./routes/app.route";
 import registerProcessHandlers from "./utils/processHandler";
 
-
-import { allowedOrigins, serverPort } from "./config";
+import { ServerConfig } from "./config";
+import { StatusCodes } from "http-status-codes";
 
 const app = express();
-const PORT = process.env.EXPRESS_API_PORT || serverPort;
+const PORT = process.env.EXPRESS_API_PORT || ServerConfig.port;
 
-app.use(express.json({ limit: '1mb' }));
+app.use(express.json({ limit: "1mb" }));
 app.use(
   cors({
-    origin: allowedOrigins,
+    origin: ServerConfig.allowedOrigins,
     credentials: true,
   }),
 );
@@ -39,7 +39,7 @@ app.use("/app", appRouter);
 app.use(errorHandler as express.ErrorRequestHandler);
 
 app.use("*path", (req, res) => {
-  res.sendStatus(404);
+  res.sendStatus(StatusCodes.NOT_FOUND);
 });
 
 const server = app.listen(PORT, () =>

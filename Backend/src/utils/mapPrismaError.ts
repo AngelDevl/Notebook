@@ -4,32 +4,37 @@ import {
   PrismaClientKnownRequestError,
   PrismaClientValidationError,
 } from "@prisma/client/runtime/library";
-import { API_ERROR_CODES } from "../errors/ErrorCodes";
+import { StatusCodes } from "http-status-codes";
+import { InternalDataBaseReasonPhrases } from "../errors/ErrorCodes";
 
 export const mapPrismaError = (err: unknown): ApiError | null => {
   if (err instanceof PrismaClientKnownRequestError) {
     switch (err.code) {
       case "P2025":
-        return new ApiError(API_ERROR_CODES.NOT_FOUND, "Record not found", 404);
+        return new ApiError(
+          InternalDataBaseReasonPhrases.RECORD_NOT_FOUND,
+          StatusCodes.NOT_FOUND,
+        );
 
       default:
-        return new ApiError(API_ERROR_CODES.DB_ERROR, "Database error", 400);
+        return new ApiError(
+          InternalDataBaseReasonPhrases.UNKNOWN_ERROR,
+          StatusCodes.INTERNAL_SERVER_ERROR,
+        );
     }
   }
 
   if (err instanceof PrismaClientValidationError) {
     return new ApiError(
-      API_ERROR_CODES.QUERY_ERROR,
-      "Invalid database query",
-      400,
+      InternalDataBaseReasonPhrases.INVALID_QUERY,
+      StatusCodes.BAD_REQUEST,
     );
   }
 
   if (err instanceof PrismaClientInitializationError) {
     return new ApiError(
-      API_ERROR_CODES.DB_CONNECTION_ERROR,
-      "Database connection failed",
-      503,
+      InternalDataBaseReasonPhrases.CONNECTION_FAILED,
+      StatusCodes.SERVICE_UNAVAILABLE,
     );
   }
 

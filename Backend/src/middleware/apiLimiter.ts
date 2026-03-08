@@ -1,5 +1,5 @@
 import rateLimit from "express-rate-limit";
-import { ServerConfig } from "../config";
+import { ServerConfig } from "../config.js";
 import { ReasonPhrases } from "http-status-codes";
 
 const apiLimiter = rateLimit({

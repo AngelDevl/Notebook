@@ -1,7 +1,8 @@
-import { Request, Response, NextFunction } from "express";
-import { RequestHandler, RequestHandlerAsync } from "../types/handler.types"
+import { Request, Response, NextFunction, RequestHandler } from "express";
 
-const tryCatch = (controller: RequestHandler | RequestHandlerAsync) => {
+const tryCatch = (
+  controller: RequestHandler
+): RequestHandler => {
   return async (req: Request, res: Response, next: NextFunction) => {
     try {
       await controller(req, res, next);

@@ -1,8 +1,8 @@
-import { ApiError } from "../errors/ApiError";
-import { ApiReasonPhrases } from "../errors/ErrorCodes";
-import { prisma } from "../lib/prisma";
-import tryCatch from "../utils/trycatch";
-import { createNoteSchema, updateNoteSchema } from "../joi/joi.schema.note";
+import { ApiError } from "../errors/ApiError.js";
+import { ApiReasonPhrases } from "../errors/ErrorCodes.js";
+import { prisma } from "../lib/prisma.js";
+import tryCatch from "../utils/trycatch.js";
+import { createNoteSchema, updateNoteSchema } from "../joi/joi.schema.note.js";
 import { StatusCodes } from "http-status-codes";
 
 export const getNotes = tryCatch(async (req, res) => {

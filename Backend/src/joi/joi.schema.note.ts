@@ -1,5 +1,5 @@
 import Joi from "joi";
-import { JoiValidationConfig } from "../config";
+import { JoiValidationConfig, ServerConfig } from "../config.js";
 
 const noteContentSettings = JoiValidationConfig.noteContentSettings;
 const noteTitleSettings = JoiValidationConfig.noteTitleSettings;
@@ -25,3 +25,16 @@ export const updateNoteSchema = Joi.object({
   content: content,
   uuid: uuid.required(),
 }).required();
+
+export const envVarsSchema = Joi.object().keys({
+  POSTGRES_USER: Joi.string().required(),
+  POSTGRES_PASSWORD: Joi.string().required(),
+  POSTGRES_DB: Joi.string().required(),
+
+  DATABASE_URL: Joi.string().required(),
+  DATABASE_URL_PRODUCTION: Joi.string().required(),
+
+  EXPRESS_API_PORT: Joi.number().default(ServerConfig.port),
+  CLIENT_SIDE_PORT: Joi.number().required(),
+  VITE_EXPRESS_API_PORT: Joi.number().default(ServerConfig.port),
+});

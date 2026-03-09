@@ -1,24 +1,29 @@
 import { ApiError } from "../errors/ApiError.js";
-import { ApiReasonPhrases } from "../errors/ErrorCodes.js";
-import { prisma } from "../lib/prisma.js";
 import tryCatch from "../utils/trycatch.js";
-import { createNoteSchema, updateNoteSchema } from "../joi/joi.schema.note.js";
+import {
+  createNoteSchema,
+  updateNoteSchema,
+  uuidSchema,
+} from "../joi/joi.schema.note.js";
 import { StatusCodes } from "http-status-codes";
+import * as noteService from "../services/note.service.js";
 
 export const getNotes = tryCatch(async (req, res) => {
-  const notes = await prisma.note.findMany();
+  const notes = await noteService.getNotes();
   res.status(StatusCodes.OK).json(notes);
 });
 
 export const getNote = tryCatch(async (req, res) => {
   const noteId = req.params.id;
-  const note = await prisma.note.findUnique({
-    where: { id: String(noteId) },
-  });
-
-  if (!note) {
-    throw new ApiError(ApiReasonPhrases.NOTE_NOT_FOUND, StatusCodes.NOT_FOUND);
+  const { value, error } = uuidSchema.validate({ uuid: noteId });
+  if (error) {
+    throw new ApiError(
+      error.details.map((err) => err.message).join(", "),
+      StatusCodes.BAD_REQUEST,
+    );
   }
+
+  const note = await noteService.getNote(noteId as string);
 
   res.status(StatusCodes.OK).json({ note: note });
 });
@@ -33,12 +38,7 @@ export const createNote = tryCatch(async (req, res) => {
   }
 
   const { title, content } = value;
-  const newNote = await prisma.note.create({
-    data: {
-      title,
-      content,
-    },
-  });
+  const newNote = await noteService.createNote({ title, content });
 
   res.status(StatusCodes.CREATED).json({ note: newNote });
 });
@@ -59,29 +59,22 @@ export const updateNote = tryCatch(async (req, res) => {
 
   const { uuid: noteId, title, content } = value;
 
-  const existing = await prisma.note.findUnique({
-    where: { id: String(noteId) },
-  });
-
-  if (!existing) {
-    throw new ApiError(ApiReasonPhrases.NOTE_NOT_FOUND, StatusCodes.NOT_FOUND);
-  }
-  const updatedNote = await prisma.note.update({
-    where: { id: String(noteId) },
-    data: {
-      ...(title && { title }),
-      ...(content && { content }),
-    },
-  });
+  const updatedNote = await noteService.updateNote({ noteId, title, content });
 
   res.status(StatusCodes.ACCEPTED).json({ note: updatedNote });
 });
 
 export const deleteNote = tryCatch(async (req, res) => {
   const noteId = req.params.id;
-  await prisma.note.delete({
-    where: { id: String(noteId) },
-  });
+  const { value, error } = uuidSchema.validate({ uuid: noteId });
+  if (error) {
+    throw new ApiError(
+      error.details.map((err) => err.message).join(", "),
+      StatusCodes.BAD_REQUEST,
+    );
+  }
+
+  await noteService.deleteNote(noteId as string);
 
   res.status(StatusCodes.ACCEPTED).json({ deleted: true });
 });

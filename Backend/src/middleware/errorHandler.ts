@@ -1,9 +1,9 @@
 import { Request, Response, NextFunction } from "express";
-import { ApiError } from "../errors/ApiError.js";
-import { mapPrismaError } from "../utils/mapPrismaError.js";
-import logger from "../utils/logger.js";
+import { ApiError } from "../errors/ApiError";
+import { mapPrismaError } from "../utils/mapPrismaError";
+import logger from "../utils/logger";
 import { StatusCodes, ReasonPhrases } from "http-status-codes";
-import { ApiReasonPhrases } from "../errors/ErrorCodes.js";
+import { ApiReasonPhrases } from "../errors/ErrorCodes";
 
 const errorHandler = (
   error: any,

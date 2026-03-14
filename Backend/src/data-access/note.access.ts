@@ -1,5 +1,5 @@
-import { prisma } from "../lib/prisma.js";
-import { NoteData, NoteUpdateData } from "../types/note.types.js";
+import { prisma } from "../lib/prisma";
+import { NoteData, NoteUpdateData } from "../types/note.types";
 
 export const getNotes = async () => {
   return await prisma.note.findMany();

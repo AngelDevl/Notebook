@@ -1,6 +1,6 @@
 import { Server } from "node:http";
-import logger from "./logger.js";
-import shutdown from "./shutdown.js";
+import logger from "./logger";
+import shutdown from "./shutdown";
 
 const registerProcessHandlers = (server: Server) => {
   process.on("unhandledRejection", (reason: unknown) => {

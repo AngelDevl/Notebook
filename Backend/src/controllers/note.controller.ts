@@ -1,5 +1,5 @@
-import { ApiError } from "../errors/ApiError.js";
-import tryCatch from "../utils/trycatch.js";
+import { ApiError } from "../errors/ApiError";
+import tryCatch from "../utils/trycatch";
 import {
   createNoteSchema,
   updateNoteSchema,

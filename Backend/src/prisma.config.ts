@@ -1,11 +1,9 @@
 import { defineConfig } from "prisma/config";
 
-import { config } from "dotenv";
+import loadEnv from "./utils/loadEnv";
+import path from "node:path";
 
-const envFile =
-  process.env.NODE_ENV === "production" ? "../.env" : "../.env.development";
-
-config({ path: envFile });
+loadEnv(path.join(process.cwd(), ".."));
 
 export default defineConfig({
   schema: "./prisma/schema",

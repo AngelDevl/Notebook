@@ -22,7 +22,7 @@ export const createNote = async (noteData: NoteData) => {
 };
 
 export const updateNote = async (noteData: NoteUpdateData) => {
-  const existing = await dataAccess.getNote(noteData.noteId);
+  const existing = await dataAccess.getNote(noteData.id);
   if (!existing) {
     throw new ApiError(ApiReasonPhrases.NOTE_NOT_FOUND, StatusCodes.NOT_FOUND);
   }

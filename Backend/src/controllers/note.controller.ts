@@ -4,9 +4,9 @@ import {
   createNoteSchema,
   updateNoteSchema,
   uuidSchema,
-} from "../joi/joi.schema.note.js";
+} from "../joi/joi.schema.note";
 import { StatusCodes } from "http-status-codes";
-import * as noteService from "../services/note.service.js";
+import * as noteService from "../services/note.service";
 
 export const getNotes = tryCatch(async (req, res) => {
   const notes = await noteService.getNotes();
@@ -57,9 +57,9 @@ export const updateNote = tryCatch(async (req, res) => {
     );
   }
 
-  const { uuid: noteId, title, content } = value;
+  const { uuid: id, title, content } = value;
 
-  const updatedNote = await noteService.updateNote({ noteId, title, content });
+  const updatedNote = await noteService.updateNote({ id, title, content });
 
   res.status(StatusCodes.ACCEPTED).json({ note: updatedNote });
 });

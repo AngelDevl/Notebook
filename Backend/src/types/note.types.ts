@@ -4,5 +4,5 @@ export interface NoteData {
 }
 
 export interface NoteUpdateData extends Partial<NoteData> {
-  noteId: string;
+  id: string;
 }

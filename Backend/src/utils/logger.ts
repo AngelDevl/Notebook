@@ -1,7 +1,7 @@
 import pino from "pino";
 
 const logger = pino({
-  level: process.env.NODE_ENV === "production" ? "silent" : "debug",
+  level: process.env.NODE_ENV === "development" ? "debug" : "silent",
   transport:
     process.env.NODE_ENV !== "production"
       ? {

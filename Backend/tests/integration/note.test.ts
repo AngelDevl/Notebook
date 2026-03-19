@@ -1,123 +1,217 @@
-import { ApiError } from "../../src/errors/ApiError";
 import { prisma } from "../../src/lib/prisma";
-import * as noteService from "../../src/services/note.service";
-import { mockNoteData } from "../data/note.data";
+import NoteBuilder from "../builders/note.builder";
+import {
+  mockNoteData,
+  NON_EXISTENT_ID,
+  NON_EXISTENT_UUID,
+} from "../data/note.data";
 import { Note } from "@prisma/client";
+import api, { server } from "../helpers/note.helper";
+import { StatusCodes } from "http-status-codes";
+import { NoteData } from "../../src/types/note.types";
 
 let notes: Note[];
-const NON_EXISTENT_ID = "non_existent_uuid";
 
 afterAll(async () => {
   await prisma.note.deleteMany();
   await prisma.$disconnect();
+  server.close();
 });
 
-describe("Note data service", () => {
+describe("Note - Route testing", () => {
   beforeEach(async () => {
     await prisma.note.deleteMany();
     notes = await prisma.note.createManyAndReturn({ data: mockNoteData });
   });
 
-  it("createNote - Should create a note", async () => {
-    const data = {
-      title: "Test",
-      content: "Content",
-    };
-    const createdNote = await noteService.createNote(data);
-    expect(createdNote.title).toBe(data.title);
-    expect(createdNote.content).toBe(data.content);
+  it("GET /notes - should get all the notes", async () => {
+    const res = await api.getNotes();
+
+    expect(res.status).toBe(StatusCodes.OK);
+    expect(res.body.length).toBe(mockNoteData.length);
   });
 
-  it("updateNote - Should throw an exception when id not exists", async () => {
-    const data = {
-      noteId: NON_EXISTENT_ID,
-      title: "New Title",
-      content: "New Content",
-    };
-    await expect(noteService.updateNote(data)).rejects.toThrow(ApiError);
+  it("GET /note - should get a note with the given id", async () => {
+    const note = notes[0];
+    const res = await api.getNote(note.id);
+
+    expect(res.status).toBe(StatusCodes.OK);
+    expect(res.body.note.id).toEqual(note.id);
   });
 
-  it("updateNote - Should update the note with the given id", async () => {
+  it("GET /note - should return not found", async () => {
+    const res = await api.getNote(NON_EXISTENT_UUID);
+
+    expect(res.status).toBe(StatusCodes.NOT_FOUND);
+  });
+
+  it("GET /note - should get a UUID format error", async () => {
+    const res = await api.getNote(NON_EXISTENT_ID);
+
+    expect(res.status).toBe(StatusCodes.BAD_REQUEST);
+    expect(res.body.error.message).toContain("uuid");
+  });
+
+  it("POST /note - should create a new note", async () => {
+    const newNote = new NoteBuilder("My New Title", "My New Content").build();
+    const res = await api.createNote(newNote);
+
+    expect(res.status).toBe(StatusCodes.CREATED);
+    expect(res.body.note.title).toEqual(newNote.title);
+    expect(res.body.note.content).toEqual(newNote.content);
+  });
+
+  it("POST /note - should return title length error", async () => {
+    const newNote: NoteData = new NoteBuilder("", "My New Content").build();
+    const res = await api.createNote(newNote);
+
+    expect(res.status).toBe(StatusCodes.BAD_REQUEST);
+    expect(res.body.error.message).toContain("title");
+  });
+
+  it("POST /note - should return id not allowed", async () => {
+    const newNote = new NoteBuilder("My New Title", "My New Content")
+      .setId("new-id")
+      .build();
+    const res = await api.createNote(newNote);
+
+    expect(res.status).toBe(StatusCodes.BAD_REQUEST);
+    expect(res.body.error.message).toContain("id");
+  });
+
+  it("PUT /note - should update the content and the title", async () => {
+    const noteId = notes[1].id;
+    const newNote: NoteData = new NoteBuilder(
+      "My New Title",
+      "My New Content",
+    ).build();
+
+    const res = await api.updateNote(newNote, noteId);
+
+    expect(res.status).toBe(StatusCodes.ACCEPTED);
+    expect(res.body.note.id).toEqual(noteId);
+    expect(res.body.note.title).toEqual(newNote.title);
+    expect(res.body.note.content).toEqual(newNote.content);
+  });
+
+  it("PUT /note - should return title length error", async () => {
+    const noteId = notes[1].id;
+    const newNote: NoteData = new NoteBuilder("", "My New Content").build();
+
+    const res = await api.updateNote(newNote, noteId);
+
+    expect(res.status).toBe(StatusCodes.BAD_REQUEST);
+    expect(res.body.error.message).toContain("title");
+  });
+
+  it("PUT /note - should return not found", async () => {
+    const newNote: NoteData = new NoteBuilder(
+      "My New Title",
+      "My New Content",
+    ).build();
+
+    const res = await api.updateNote(newNote, NON_EXISTENT_UUID);
+
+    expect(res.status).toBe(StatusCodes.NOT_FOUND);
+  });
+
+  it("PUT /note - should get a UUID format error", async () => {
+    const newNote: NoteData = new NoteBuilder(
+      "My New Title",
+      "My New Content",
+    ).build();
+
+    const res = await api.updateNote(newNote, NON_EXISTENT_ID);
+
+    expect(res.status).toBe(StatusCodes.BAD_REQUEST);
+    expect(res.body.error.message).toContain("uuid");
+  });
+
+  it("DELETE /note - should delete a note and return deleted", async () => {
     const noteId = notes[0].id;
-    const data = {
-      noteId: noteId,
-      title: "New Title",
-      content: "New Content",
-    };
+    const res = await api.deleteNote(noteId);
 
-    const updatedNote = await noteService.updateNote(data);
-    expect(updatedNote.id).toEqual(data.noteId);
-    expect(updatedNote.title).toEqual(data.title);
-    expect(updatedNote.content).toEqual(data.content);
+    expect(res.status).toBe(StatusCodes.ACCEPTED);
+    expect(res.body.deleted).toBe(true);
   });
 
-  it("getNotes - Should return all the notes in the database", async () => {
-    const notes = await noteService.getNotes();
-    const selectedNotes = await prisma.note.findMany();
-    expect(notes).toEqual(selectedNotes);
-  });
-
-  it("getNote - Should throw an exception when id not exists", async () => {
-    await expect(noteService.getNote(NON_EXISTENT_ID)).rejects.toThrow(
-      ApiError,
-    );
-  });
-
-  it("getNote - Should return a note with the given id", async () => {
+  it("DELETE /note - delete and getNote to prove deleted", async () => {
     const noteId = notes[0].id;
-    const selectedNote = await prisma.note.findUnique({
-      where: { id: noteId },
-    });
-    const note = await noteService.getNote(noteId);
-    expect(note).toEqual(selectedNote);
+    const res = await api.deleteNote(noteId);
+
+    expect(res.status).toBe(StatusCodes.ACCEPTED);
+    expect(res.body.deleted).toBe(true);
+
+    const getRes = await api.getNote(noteId);
+    expect(getRes.status).toBe(StatusCodes.NOT_FOUND);
   });
 
-  it("deleteNote - Should throw an exception when id not exists", async () => {
-    await expect(noteService.deleteNote(NON_EXISTENT_ID)).rejects.toThrow(
-      ApiError,
-    );
+  it("DELETE /note - should get a UUID format error", async () => {
+    const res = await api.deleteNote(NON_EXISTENT_ID);
+
+    expect(res.status).toBe(StatusCodes.BAD_REQUEST);
+    expect(res.body.error.message).toContain("uuid");
   });
 
-  it("deleteNote - Should delete a note and return it", async () => {
-    const firstNote = notes[1];
-    const note = await noteService.deleteNote(firstNote.id);
-    expect(note).toEqual(firstNote);
+  it("DELETE /note - should return not found", async () => {
+    const res = await api.deleteNote(NON_EXISTENT_UUID);
+
+    expect(res.status).toBe(StatusCodes.NOT_FOUND);
   });
 });
 
-describe("Should handle create-update-delete flow", () => {
-  let newNote: Note;
-
-  it("createNote - Should create a note", async () => {
-    const data = {
-      title: "My Test",
-      content: "My Content",
-    };
-    newNote = await noteService.createNote(data);
-    console.log(newNote);
-    expect(newNote.title).toBe(data.title);
-    expect(newNote.content).toBe(data.content);
+describe("Note flow - Route testing", () => {
+  beforeAll(async () => {
+    await prisma.note.deleteMany();
   });
 
-  it("updateNote - Should update the note with the given id", async () => {
-    const data = {
-      noteId: newNote.id,
-      title: "New Title",
-      content: "New Content",
-    };
+  let note: Note;
 
-    const updatedNote = await noteService.updateNote(data);
-    expect(updatedNote.id).toEqual(data.noteId);
-    expect(updatedNote.title).toEqual(data.title);
-    expect(updatedNote.content).toEqual(data.content);
+  it("Create a note", async () => {
+    const newNote = new NoteBuilder("My New Title", "My New Content").build();
+    const res = await api.createNote(newNote);
+
+    expect(res.status).toBe(StatusCodes.CREATED);
+    expect(res.body.note.title).toEqual(newNote.title);
+    expect(res.body.note.content).toEqual(newNote.content);
+
+    note = res.body.note;
   });
 
-  it("deleteNote - Should delete a note and return it", async () => {
-    const deletedNote = await noteService.deleteNote(newNote.id);
-    expect(deletedNote).toEqual(newNote);
+  it("Get all the notes", async () => {
+    const res = await api.getNotes();
+
+    expect(res.status).toBe(StatusCodes.OK);
+    expect(res.body).toEqual(
+      expect.arrayContaining([expect.objectContaining({ id: note.id })]),
+    );
   });
 
-  it("deleteNote - Should check that the note is actually deleted", async () => {
-    await expect(noteService.getNote(newNote.id)).rejects.toThrow(ApiError);
+  it("Get a note", async () => {
+    const res = await api.getNote(note.id);
+
+    expect(res.status).toBe(StatusCodes.OK);
+    expect(res.body.note.id).toEqual(note.id);
+  });
+
+  it("Update a note", async () => {
+    const newNote: NoteData = new NoteBuilder(
+      "My New Title",
+      "My New Content",
+    ).build();
+
+    const res = await api.updateNote(newNote, note.id);
+
+    expect(res.status).toBe(StatusCodes.ACCEPTED);
+    expect(res.body.note.id).toEqual(note.id);
+    expect(res.body.note.title).toEqual(newNote.title);
+    expect(res.body.note.content).toEqual(newNote.content);
+  });
+
+  it("Delete a note", async () => {
+    const res = await api.deleteNote(note.id);
+
+    expect(res.status).toBe(StatusCodes.ACCEPTED);
+    expect(res.body.deleted).toBe(true);
   });
 });

@@ -1,8 +1,11 @@
 import { NoteData } from "../../src/types/note.types";
+import NoteBuilder from "../builders/note.builder";
 
 export const mockNoteData: NoteData[] = [
-  { title: "Hello World", content: "This is my first Hello World" },
-  { title: "Test test", content: "This is my first test" },
-  { title: "Node of a tree", content: "The root of a tree" },
+  new NoteBuilder("Hello World", "This is my first Hello World").build(),
+  new NoteBuilder("Test test", "This is my first test").build(),
+  new NoteBuilder("Node of a tree", "The root of a tree").build(),
 ];
 
+export const NON_EXISTENT_ID = "non_existent_uuid";
+export const NON_EXISTENT_UUID = "e0233c7f-eec8-47d5-aaa1-a2fe11585be5";

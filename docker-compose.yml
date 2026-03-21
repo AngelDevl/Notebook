@@ -24,6 +24,7 @@ services:
     depends_on:
       - postgres
     environment:
+      NODE_ENV: ${NODE_ENV}
       DATABASE_URL: ${DATABASE_URL_PRODUCTION}
       EXPRESS_API_PORT: ${EXPRESS_API_PORT}
       CLIENT_SIDE_PORT: ${CLIENT_SIDE_PORT}

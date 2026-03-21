@@ -1,5 +1,5 @@
-import { NoteData } from "../../src/types/note.types";
-import NoteBuilder from "../builders/note.builder";
+import { NoteData } from "../../src/types/note.types.js";
+import NoteBuilder from "../builders/note.builder.js";
 
 export const mockNoteData: NoteData[] = [
   new NoteBuilder("Hello World", "This is my first Hello World").build(),

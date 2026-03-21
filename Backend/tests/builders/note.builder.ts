@@ -1,4 +1,4 @@
-import { NoteData } from "../../src/types/note.types";
+import { NoteData } from "../../src/types/note.types.js";
 
 export type NoteBuilderData = NoteData & {
   id?: string;

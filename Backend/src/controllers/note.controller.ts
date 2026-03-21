@@ -1,12 +1,12 @@
-import { ApiError } from "../errors/ApiError";
-import tryCatch from "../utils/trycatch";
+import { ApiError } from "../errors/ApiError.js";
+import tryCatch from "../utils/trycatch.js";
 import {
   createNoteSchema,
   updateNoteSchema,
   uuidSchema,
-} from "../joi/joi.schema.note";
+} from "../joi/joi.schema.note.js";
 import { StatusCodes } from "http-status-codes";
-import * as noteService from "../services/note.service";
+import * as noteService from "../services/note.service.js";
 
 export const getNotes = tryCatch(async (req, res) => {
   const notes = await noteService.getNotes();

@@ -1,6 +1,6 @@
 import { defineConfig } from "prisma/config";
 
-import loadEnv from "./utils/loadEnv";
+import loadEnv from "./utils/loadEnv.js";
 import path from "node:path";
 
 loadEnv(path.join(process.cwd(), ".."));

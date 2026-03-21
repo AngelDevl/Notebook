@@ -1,10 +1,10 @@
 import express from "express";
 import cors from "cors";
-import { prisma } from "./lib/prisma";
-import errorHandler from "./middleware/errorHandler";
-import tryCatch from "./utils/trycatch";
-import appRouter from "./routes/app.route";
-import { ServerConfig } from "./config";
+import { prisma } from "./lib/prisma.js";
+import errorHandler from "./middleware/errorHandler.js";
+import tryCatch from "./utils/trycatch.js";
+import appRouter from "./routes/app.route.js";
+import { ServerConfig } from "./config.js";
 import { StatusCodes } from "http-status-codes";
 
 const app = express();

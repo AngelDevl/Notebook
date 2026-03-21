@@ -1,7 +1,7 @@
 import request from "supertest";
 import http from "http";
-import app from "../../src/app";
-import { NoteData } from "../../src/types/note.types";
+import app from "../../src/app.js";
+import { NoteData } from "../../src/types/note.types.js";
 
 export const server = http.createServer(app);
 

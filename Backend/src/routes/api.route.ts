@@ -1,6 +1,6 @@
 import express from "express";
-import notesRouter from "./notes.route";
-import apiLimiter from "../middleware/apiLimiter";
+import notesRouter from "./notes.route.js";
+import apiLimiter from "../middleware/apiLimiter.js";
 
 const apiRouter = express.Router();
 

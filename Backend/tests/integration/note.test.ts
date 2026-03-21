@@ -1,14 +1,14 @@
-import { prisma } from "../../src/lib/prisma";
-import NoteBuilder from "../builders/note.builder";
+import { prisma } from "../../src/lib/prisma.js";
+import NoteBuilder from "../builders/note.builder.js";
 import {
   mockNoteData,
   NON_EXISTENT_ID,
   NON_EXISTENT_UUID,
-} from "../data/note.data";
+} from "../data/note.data.js";
 import { Note } from "@prisma/client";
-import api, { server } from "../helpers/note.helper";
+import api, { server } from "../helpers/note.helper.js";
 import { StatusCodes } from "http-status-codes";
-import { NoteData } from "../../src/types/note.types";
+import { NoteData } from "../../src/types/note.types.js";
 
 let notes: Note[];
 

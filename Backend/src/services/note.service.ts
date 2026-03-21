@@ -1,8 +1,8 @@
 import { StatusCodes } from "http-status-codes";
-import * as dataAccess from "../data-access/note.access";
-import { ApiError } from "../errors/ApiError";
-import { ApiReasonPhrases } from "../errors/ErrorCodes";
-import { NoteData, NoteUpdateData } from "../types/note.types";
+import * as dataAccess from "../data-access/note.access.js";
+import { ApiError } from "../errors/ApiError.js";
+import { ApiReasonPhrases } from "../errors/ErrorCodes.js";
+import { NoteData, NoteUpdateData } from "../types/note.types.js";
 
 export const getNotes = async () => {
   return await dataAccess.getNotes();

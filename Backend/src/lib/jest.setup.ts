@@ -6,7 +6,7 @@ jest.mock("./prisma", () => ({
   prisma: mockDeep<PrismaClient>(),
 }));
 
-import { prisma } from "./prisma";
+import { prisma } from "./prisma.js";
 
 export const prismaMock = prisma as DeepMockProxy<PrismaClient>;
 

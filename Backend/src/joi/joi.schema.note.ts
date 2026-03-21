@@ -1,5 +1,5 @@
 import Joi from "joi";
-import { JoiValidationConfig, ServerConfig } from "../config";
+import { JoiValidationConfig, ServerConfig } from "../config.js";
 
 const noteContentSettings = JoiValidationConfig.noteContentSettings;
 const noteTitleSettings = JoiValidationConfig.noteTitleSettings;

@@ -1,5 +1,5 @@
 import { Server } from "node:http";
-import logger from "./logger";
+import logger from "./logger.js";
 
   const shutdown = (server: Server) => {
     if (server) {

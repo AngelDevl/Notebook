@@ -1,11 +1,11 @@
-import { ApiError } from "../errors/ApiError";
+import { ApiError } from "../errors/ApiError.js";
 import {
   PrismaClientInitializationError,
   PrismaClientKnownRequestError,
   PrismaClientValidationError,
 } from "@prisma/client/runtime/library";
 import { StatusCodes } from "http-status-codes";
-import { InternalDataBaseReasonPhrases } from "../errors/ErrorCodes";
+import { InternalDataBaseReasonPhrases } from "../errors/ErrorCodes.js";
 
 export const mapPrismaError = (err: unknown): ApiError | null => {
   if (err instanceof PrismaClientKnownRequestError) {

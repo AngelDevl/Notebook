@@ -16,6 +16,7 @@
     "test:down": "docker compose -f ../docker-compose.test.yml down",
     "dev": "cross-env NODE_ENV=development tsx watch src/index.ts",
     "dev:up": "docker compose -f ../docker-compose.dev.yml --env-file ../.env.development up -d --build postgres",
+    "dev:down": "docker compose -f ../docker-compose.dev.yml down",
     "dev:run": "npm run dev:up && cross-env NODE_ENV=development npm run gen && npm run dev:migrate && npm run dev",
     "dev:create": "npx prisma migrate dev --create-only --config ./src/prisma.config.ts",
     "dev:migrate": "prisma migrate dev --name init --config ./src/prisma.config.ts"

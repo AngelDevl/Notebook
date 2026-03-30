@@ -1,27 +1,27 @@
-    FROM node:23-alpine AS builder
+FROM node:23-alpine AS builder
 
-    WORKDIR /app
+WORKDIR /app
 
-    COPY package*.json .
+COPY package*.json .
 
-    RUN npm install
+RUN npm install
 
-    COPY . .
+COPY . .
 
-    RUN npm run build
+RUN npm run build
 
-    # ------------------------------
+# ------------------------------
 
-    FROM node:23-alpine
+FROM node:23-alpine
 
-    WORKDIR /app
+WORKDIR /app
 
-    COPY package*.json .
+COPY package*.json .
 
-    RUN npm install --omit=dev
+RUN npm install --omit=dev
 
-    COPY --from=builder /app/dist ./dist
-    COPY --from=builder /app/src/prisma ./dist/prisma
-    # COPY --from=builder /app/src/prisma.config.ts ./src/prisma.config.ts
+COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/src/prisma ./dist/prisma
+# COPY --from=builder /app/src/prisma.config.ts ./src/prisma.config.ts
 
-    CMD ["sh", "-c", "npm run deploy"]
+CMD ["sh", "-c", "npm run deploy"]

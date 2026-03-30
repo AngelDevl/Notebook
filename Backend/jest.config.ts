@@ -2,8 +2,9 @@ export default {
   preset: "ts-jest/presets/default-esm",
   testEnvironment: "node",
   testMatch: ["**/**/*.test.ts"],
-  globalSetup: "./tests/helpers/globalSetup.ts",
-  globalTeardown: "./tests/helpers/globalTeardown.ts",
+  globalSetup: "./tests/setups/globalSetup.ts",
+  globalTeardown: "./tests/setups/globalTeardown.ts",
+  setupFilesAfterEnv: ["./tests/setups/jest.setup.ts"],
   moduleNameMapper: {
     "^@/(.*)$": "<rootDir>/src/$1",
     "^(\\.{1,2}/.*)\\.js$": "$1",

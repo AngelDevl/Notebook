@@ -13,11 +13,13 @@ git clone git@github.com:AngelDevl/Notebook.git
 cd Notebook
 ```
 ### Production:
+##### Initialize .env file with the same configuration as .env.example
 ```console
 docker compose up -d --build
 ```
 
 ### Development:
+##### Initialize .env.development file with the same configuration as .env.example
 #### Backend:
 ```console
 cd Backend
@@ -40,6 +42,7 @@ npm run dev
 ```
 
 ### Testing:
+##### Initialize .env.test file with the same configuration as .env.example
 ```console
 cd Backend
 ```

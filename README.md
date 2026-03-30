@@ -30,7 +30,7 @@ npm run dev:run
 ```
 #### Frontend:
 ```console
-cd Fronend
+cd Frontend
 ```
 ```console
 npm install

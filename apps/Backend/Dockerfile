@@ -22,6 +22,5 @@ RUN npm install --omit=dev
 
 COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/src/prisma ./dist/prisma
-# COPY --from=builder /app/src/prisma.config.ts ./src/prisma.config.ts
 
 CMD ["sh", "-c", "npm run deploy"]

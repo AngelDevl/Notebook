@@ -1,4 +1,4 @@
-import "./utils/load.js"
+import "./utils/load.js";
 
 import registerProcessHandlers from "./utils/processHandler.js";
 

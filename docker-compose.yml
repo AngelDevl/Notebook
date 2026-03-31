@@ -15,7 +15,7 @@ services:
 
   express-api:
     build:
-      context: ./Backend
+      context: ./apps/Backend
     container_name: express_api
     restart: always
 
@@ -31,7 +31,7 @@ services:
 
   frontend:
     build:
-      context: ./Frontend
+      context: ./apps/Frontend
       args:
         - VITE_EXPRESS_API_PORT=${VITE_EXPRESS_API_PORT}
     ports:

@@ -33,5 +33,4 @@ app.use("*path", (req, res) => {
   res.sendStatus(StatusCodes.NOT_FOUND);
 });
 
-
 export default app;

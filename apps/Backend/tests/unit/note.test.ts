@@ -5,7 +5,6 @@ import api from "../helpers/note.helper.js";
 import { StatusCodes } from "http-status-codes";
 import { NoteData } from "../../src/types/note.types.js";
 
-
 afterAll(async () => {
   await prisma.note.deleteMany();
 });

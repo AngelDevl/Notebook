@@ -18,4 +18,3 @@ export const JoiValidationConfig = {
     maxLength: 50,
   },
 };
-

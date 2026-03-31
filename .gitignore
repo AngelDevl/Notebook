@@ -1,3 +1,5 @@
 .env
 .env.test
 .env.development
+.turbo
+node_modules

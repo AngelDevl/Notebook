@@ -6,7 +6,7 @@ import { fileURLToPath } from "node:url";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-config({ path: path.resolve(__dirname, "../../../.env.test") });
+config({ path: path.resolve(__dirname, "../../../../.env.test") });
 
 const globalSetup = async () => {
   const dbUrl = process.env.DATABASE_URL;

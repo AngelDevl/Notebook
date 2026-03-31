@@ -1,8 +1,6 @@
 import { prisma } from "../../../src/lib/prisma.js";
 import NoteBuilder from "../../builders/note.builder.js";
-import {
-  mockNoteData,
-} from "../../data/note.data.js";
+import { mockNoteData } from "../../data/note.data.js";
 import { Note } from "@prisma/client";
 import api from "../../helpers/note.helper.js";
 import { StatusCodes } from "http-status-codes";

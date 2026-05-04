@@ -1,7 +1,7 @@
 import { createContext, useContext, useState } from "react";
 import type { ReactNode } from "react";
 import { Alert } from "react-bootstrap";
-import "../../css/alert.css"
+import "../styles/alert.css";
 
 type AlertVariant = "success" | "warning" | "danger";
 

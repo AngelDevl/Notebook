@@ -1,6 +1,6 @@
 import { Form, Container, Button } from "react-bootstrap";
 import type { TNote } from "../../types/note.type";
-import { useLoading } from "../Context/LoadingContext";
+import { useLoading } from "@notebook/ui";
 import { Eye } from "lucide-react";
 
 interface BoxProps {

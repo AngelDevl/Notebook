@@ -1,4 +1,4 @@
-import ContainerCenter from "./ContainerCenter";
+import { ContainerCenter } from "@notebook/ui";
 
 const NotFoundPage = () => {
   return (

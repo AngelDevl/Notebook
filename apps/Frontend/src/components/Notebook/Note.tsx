@@ -1,7 +1,7 @@
 import type { TNote } from "../../types/note.type";
 import Card from "react-bootstrap/Card";
 import { Button } from "react-bootstrap";
-import { useLoading } from "../Context/LoadingContext";
+import { useLoading } from "@notebook/ui";
 import "../../css/note.css";
 import { useNavigate } from "react-router-dom";
 

@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 import { Route, Routes } from "react-router-dom";
 import { routes } from "../routes";
-import Loading from "./components/Helper/Loading";
+import { Loading } from "@notebook/ui";
 import NotFoundPage from "./components/Helper/NotFoundPage";
 import NavigationBar from "./components/Navbar/NavigationBar";
 

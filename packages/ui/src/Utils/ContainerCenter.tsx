@@ -4,7 +4,7 @@ import { Container } from "react-bootstrap";
 interface ContainerCenterProps {
   children: ReactNode | ReactNode[];
 }
-const ContainerCenter = ({ children }: ContainerCenterProps) => {
+export const ContainerCenter = ({ children }: ContainerCenterProps) => {
   return (
     <Container
       id="container-full-height"
@@ -14,5 +14,3 @@ const ContainerCenter = ({ children }: ContainerCenterProps) => {
     </Container>
   );
 };
-
-export default ContainerCenter;

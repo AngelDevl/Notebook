@@ -1,7 +1,7 @@
 import { Spinner } from "react-bootstrap";
 import { useLoading } from "../Context/LoadingContext";
 
-const Loading = ({ width, height }: { width: string; height: string }) => {
+export const Loading = ({ width, height }: { width: string; height: string }) => {
   const { isLoading } = useLoading();
 
   if (!isLoading) return null;
@@ -25,5 +25,3 @@ const Loading = ({ width, height }: { width: string; height: string }) => {
     </div>
   );
 };
-
-export default Loading;

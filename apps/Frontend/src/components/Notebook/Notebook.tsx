@@ -3,10 +3,9 @@ import Notes from "./Notes";
 import api from "../../api/axios";
 import type { TNote } from "../../types/note.type";
 import { Container } from "react-bootstrap";
-import { useLoading } from "../Context/LoadingContext";
-import { useAlert } from "../Context/AlertContext";
+import { useLoading, useAlert } from "@notebook/ui";
 import getApiErrorMessage from "../../api/getApiErrorMessage";
-import ContainerCenter from "../Helper/ContainerCenter";
+import { ContainerCenter } from "@notebook/ui";
 
 const Notebook = () => {
   const [notes, setNotes] = useState<TNote[] | null>(null);

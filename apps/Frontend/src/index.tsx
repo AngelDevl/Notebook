@@ -3,9 +3,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./css/index.css";
 import App from "./App.tsx";
 import { BrowserRouter } from "react-router-dom";
-import { AlertProvider } from "./components/Context/AlertContext.tsx";
-import { LoadingProvider } from "./components/Context/LoadingContext.tsx";
-import Loading from "./components/Helper/Loading.tsx";
+import { AlertProvider, LoadingProvider } from "@notebook/ui";
+import { Loading } from "@notebook/ui"
 
 createRoot(document.getElementById("root")!).render(
   <BrowserRouter>

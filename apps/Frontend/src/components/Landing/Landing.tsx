@@ -1,5 +1,5 @@
 import Features from "./Features";
-import ContainerCenter from "../Helper/ContainerCenter";
+import { ContainerCenter } from "@notebook/ui";
 import { Row } from "react-bootstrap";
 
 const Landing = () => {

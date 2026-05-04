@@ -3,11 +3,10 @@ import type { TNote } from "../../types/note.type";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import api from "../../api/axios";
 import NoteTextBox from "./NoteTextBox";
-import { useLoading } from "../Context/LoadingContext";
-import { useAlert } from "../Context/AlertContext";
+import { useLoading, useAlert } from "@notebook/ui";
 import getApiErrorMessage from "../../api/getApiErrorMessage";
 import NoteViewModal from "./NoteViewModal";
-import ContainerCenter from "../Helper/ContainerCenter";
+import { ContainerCenter } from "@notebook/ui";
 
 const NoteEditor = () => {
   const [note, setNote] = useState<TNote | null>(null);

@@ -8,6 +8,10 @@
     "types": ["vite/client"],
     "skipLibCheck": true,
 
+    "paths": {
+      "@notebook/ui": ["../../packages/ui/src/index.ts"]
+    },
+
     /* Bundler mode */
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
@@ -24,5 +28,5 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true
   },
-  "include": ["src"]
+  "include": ["src", "../../packages/ui/src/Utils/ContainerCenter.tsx", "../../packages/ui/src/Utils/Loading.tsx"]
 }
